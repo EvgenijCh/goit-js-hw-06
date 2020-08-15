@@ -33,7 +33,7 @@ console.log(getUsersWithGender(users, 'male')); // [ 'Moore Hensley', 'Ross Vazq
 // // Получить массив только неактивных пользователей (поле isActive).
 
 const getInactiveUsers = users => {
-  return users.filter(user => !user.isActive).map(user => user.name);
+  return users.filter(user => !user.isActive);
 };
 console.log(getInactiveUsers(users)); // [объект Moore Hensley, объект Ross Vazquez, объект Blackburn Dotson]
 
@@ -50,9 +50,7 @@ console.log(getUserWithEmail(users, 'elmahead@omatom.com')); // {объект п
 // // Получить массив пользователей попадающих в возрастную категорию от min до max лет (поле age).
 
 const getUsersWithAge = (users, min, max) => {
-  return users
-    .filter(user => user.age > min && user.age < max)
-    .map(user => user.name);
+  return users.filter(user => user.age > min && user.age < max);
 };
 console.log(getUsersWithAge(users, 20, 30)); // [объект Ross Vazquez, объект Elma Head, объект Carey Barr]
 console.log(getUsersWithAge(users, 30, 40));
@@ -95,11 +93,9 @@ console.log(getNamesSortedByFriendsCount(users));
 
 const getSortedUniqueSkills = users => {
   return users
-    .reduce((allSkills, user) => {
-      allSkills.push(...user.skills);
-      return allSkills;
-    }, [])
-    .filter((user, index, arr) => arr.indexOf(user) === index)
+    .map(user => user.skills)
+    .reduce((allSkills, user) => [...allSkills, ...user], [])
+    .filter((elem, index, array) => array.indexOf(elem) === index)
     .sort();
 };
 console.log(getSortedUniqueSkills(users));
